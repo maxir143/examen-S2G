@@ -1,10 +1,12 @@
 import { LogOutButton } from '@/components/log_out_button'
-import { TokenInfo } from '@/components/token_info'
+import { Map } from '@/components/map'
+import { get_charge_stations } from '@/server_actions/charge_stations'
 
-export default function Page() {
+export default async function Page() {
+  const { charge_stations, error } = await get_charge_stations()
   return (
     <>
-      <TokenInfo />
+      <Map chargeStations={charge_stations} />
       <LogOutButton />
     </>
   )

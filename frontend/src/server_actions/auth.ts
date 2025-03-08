@@ -1,5 +1,7 @@
 'use server'
 
+import { cookies } from 'next/headers'
+
 type _BasicAuth = {
   email: string
   password: string
@@ -31,6 +33,10 @@ export async function login({
       if (!token) {
         throw new Error('Response do not contain token')
       }
+
+      const cookieStore = await cookies()
+
+      cookieStore.set('token', token)
 
       return { token, error: null }
     })

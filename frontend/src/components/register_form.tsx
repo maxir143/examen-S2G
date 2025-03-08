@@ -2,7 +2,7 @@
 import { Field, Form, Formik } from 'formik'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
-import { signUp } from '@/utils/server_actions'
+import { signUp } from '@/server_actions/auth'
 
 export function RegisterForm() {
   const router = useRouter()

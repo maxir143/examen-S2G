@@ -33,7 +33,7 @@ export default function RootLayout({
             {children}
           </div>
         </div>
-        <ToastContainer />
+        <ToastContainer hideProgressBar closeButton={false} pauseOnFocusLoss={false} pauseOnHover={false} />
       </body>
     </html>
   )

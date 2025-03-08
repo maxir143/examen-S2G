@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { jwtDecode } from 'jwt-decode'
 import { useStore } from './store'
-import { refreshToken } from './server_actions'
+import { refreshToken } from '@/server_actions/auth'
 
 type _Token = {
   id: string

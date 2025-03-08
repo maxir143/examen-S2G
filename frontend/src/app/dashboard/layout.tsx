@@ -1,26 +1,16 @@
-'use client'
-import { useAuth } from '@/utils/useAuth'
-import { useRouter } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const { getToken, verifyToken, logout } = useAuth()
-  const { error } = verifyToken()
 
-  const token_object = getToken()
-  const router = useRouter()
+  const cookieStore = await cookies()
+  const token = cookieStore.get('token')
 
-  if (!token_object) {
-    router.push('/login')
-  }
-
-  if (error) {
-    logout()
-    router.push('/login')
-  }
+  if (!token?.value) redirect("/login")
 
   return children
 }
