@@ -9,7 +9,6 @@ from repository.users import get_user
 
 
 class _Token(BaseModel):
-    id: StrUUID
     sub: str
     email: str
     iat: float
@@ -30,9 +29,7 @@ def session_token(
     refresh_expires_at = created_at + timedelta(
         minutes=settings.REFRESH_TOKEN_EXPIRATION_MINUTES
     )
-    token_id = uuid4()
     token = _Token(
-        id=token_id,
         sub=user_id,
         email=email,
         iat=created_at.timestamp(),
@@ -48,20 +45,20 @@ def extract_token(token_string: str) -> _Token:
 
 
 def validate_token(token_string: str) -> _Token:
+    if not token_string:
+        raise ValueError("Token not found")
+
     token = extract_token(token_string)
 
     if not token.active_exp:
-        raise ValueError(detail="Token is not active")
+        raise ValueError("Token is not active")
 
     if token.active_exp < datetime.now(timezone.utc).timestamp():
-        raise ValueError(detail="Token is expired")
+        raise ValueError("Token is expired")
 
     user = get_user(token.email)
 
     if not user:
-        raise ValueError(detail="User not found")
-
-    if str(user.token_id) != str(token.id):
-        raise ValueError(detail="Token is not valid, please login again")
+        raise ValueError("User not found")
 
     return token

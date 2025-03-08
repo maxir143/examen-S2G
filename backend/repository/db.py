@@ -1,7 +1,5 @@
 from peewee import SqliteDatabase
-from repository.schemas.login import LoginSchema
-from repository.schemas.user import UserSchema
-from repository.schemas.charge_station import ChargeStationModel
+from repository.schemas import LoginSchema, UserSchema, ChargeStationSchema
 
 
 def get_db(database_name: str) -> SqliteDatabase:
@@ -12,5 +10,5 @@ def get_db(database_name: str) -> SqliteDatabase:
 
 
 def init_db(db: SqliteDatabase):
-    db.create_tables([UserSchema, LoginSchema, ChargeStationModel])
+    db.create_tables([UserSchema, LoginSchema, ChargeStationSchema])
     db.close()
