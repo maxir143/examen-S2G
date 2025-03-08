@@ -1,13 +1,11 @@
-'use client'
+"use client"
 import { Field, Form, Formik } from 'formik'
-import { useAuth } from '@/utils/useAuth'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import { signUp } from '@/utils/server_actions'
 
 export function RegisterForm() {
-  const { signUp } = useAuth()
   const router = useRouter()
-
   return (
     <div className="flex flex-col gap-4 w-full  h-1/3">
       <h1 className="text-2xl">Sign up form!</h1>

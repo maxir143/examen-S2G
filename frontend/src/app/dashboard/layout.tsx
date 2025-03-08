@@ -7,19 +7,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const { getToken, removeToken, verifyToken } = useAuth()
+  const { getToken, verifyToken, logout } = useAuth()
+  const { error } = verifyToken()
 
   const token_object = getToken()
   const router = useRouter()
 
   if (!token_object) {
-    router.replace('/login')
+    router.push('/login')
   }
 
-  const { error } = verifyToken()
-
   if (error) {
-    removeToken()
+    logout()
     router.push('/login')
   }
 

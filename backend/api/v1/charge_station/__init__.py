@@ -22,12 +22,9 @@ class _Response(SuccessResponse):
 @charge_station_router.get("/{id}", response_model=_Response)
 def _get(id: StrUUID, x_token: Annotated[str | None, Header()] = None):
     token = validate_token(x_token)
-
     charge_stations = get_charge_stations(user_id=token.sub, id=id)
-
     if len(charge_stations) == 0:
         raise HTTPException(detail="user have no charge stations", status_code=404)
-
     return _Response(
         message="Charge station found", data={"charge_station": charge_stations[0]}
     )
@@ -36,12 +33,9 @@ def _get(id: StrUUID, x_token: Annotated[str | None, Header()] = None):
 @charge_station_router.get("/list", response_model=_Response)
 def _list(x_token: Annotated[str | None, Header()] = None):
     token = validate_token(x_token)
-
     charge_stations = get_charge_stations(user_id=token.sub)
-
     if len(charge_stations) == 0:
         raise HTTPException(detail="user have no charge stations", status_code=404)
-
     return _Response(
         message="Charge station found", data={"charge_stations": charge_stations}
     )
@@ -56,11 +50,9 @@ def _update(
     x_token: Annotated[str | None, Header()] = None,
 ):
     token = validate_token(x_token)
-
     updated_station = update_charge_station(id, token.sub, body)
     if not updated_station:
         raise Exception("The charge station could not be updated")
-
     return _Response(message="Charge station updated")
 
 
@@ -69,7 +61,6 @@ def _create(
     body: ChargeStationPartialModel, x_token: Annotated[str | None, Header()] = None
 ):
     token = validate_token(x_token)
-
     created_station = create_charge_station(
         ChargeStationModel(
             active=body.active,
@@ -80,10 +71,8 @@ def _create(
             user_id=token.sub,
         )
     )
-
     if not created_station:
         raise Exception("The charge station could not be created")
-
     return _Response(
         message="Charge station created",
         data={"charge_station": created_station.model_dump()},

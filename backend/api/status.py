@@ -8,6 +8,6 @@ status_router = APIRouter(
 )
 
 
-@status_router.get("", response_model=SuccessResponse)
+@status_router.get("", response_model=SuccessResponse, response_model_exclude_none=True)
 def _status():
     return SuccessResponse(message="OK")

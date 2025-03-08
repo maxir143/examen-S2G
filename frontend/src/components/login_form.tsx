@@ -1,11 +1,13 @@
 'use client'
+
 import { useRouter } from 'next/navigation'
 import { Field, Form, Formik } from 'formik'
 import { useAuth } from '@/utils/useAuth'
 import { toast } from 'react-toastify'
+import { login } from '@/utils/server_actions'
 
-export function LoginForm() {
-  const { login, setToken } = useAuth()
+export function LoginForm({ goToPath = "/dashboard" }: { goToPath?: string }) {
+  const { setToken } = useAuth()
   const router = useRouter()
 
   return (
@@ -44,7 +46,7 @@ export function LoginForm() {
           }
           setToken(token)
           setSubmitting(false)
-          router.push('/protected')
+          return router.push(goToPath)
         }}
       >
         {({ isSubmitting, errors }) => (
