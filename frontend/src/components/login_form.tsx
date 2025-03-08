@@ -2,12 +2,11 @@
 
 import { useRouter } from 'next/navigation'
 import { Field, Form, Formik } from 'formik'
-import { useAuth } from '@/utils/useAuth'
 import { toast } from 'react-toastify'
 import { login } from '@/server_actions/auth'
+import { setCookie } from '@/server_actions/cookies'
 
 export function LoginForm({ goToPath = "/dashboard" }: { goToPath?: string }) {
-  const { setToken } = useAuth()
   const router = useRouter()
 
   return (
@@ -44,7 +43,7 @@ export function LoginForm({ goToPath = "/dashboard" }: { goToPath?: string }) {
             setSubmitting(false)
             return
           }
-          setToken(token)
+          await setCookie("token", token)
           setSubmitting(false)
           return router.push(goToPath)
         }}

@@ -11,11 +11,13 @@ df = pd.read_csv(
 )
 
 
+df = df[df["Address"].str.contains("mexico", case=False, na=False)]
+
 init_db(get_db(settings.DATABASE_NAME))
 
 delete_charge_stations()
 
-for index, row in df.head(10).iterrows():
+for index, row in df.iterrows():
     create_charge_station(
         ChargeStationPartialModel(
             user_email="0BjL7@example.com",

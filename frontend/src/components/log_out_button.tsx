@@ -1,17 +1,12 @@
-'use client'
-import { useRouter } from 'next/navigation'
-import { useAuth } from '@/utils/useAuth'
+"use client"
+import { logout } from '@/server_actions/auth'
+
 
 export function LogOutButton() {
-  const { logout } = useAuth()
-  const router = useRouter()
   return (
     <button
       className="btn btn-secondary"
-      onClick={() => {
-        logout()
-        router.push('/login')
-      }}
+      onClick={logout}
     >
       Log out
     </button>

@@ -55,7 +55,7 @@ def get_charge_stations(
             .execute()
         )
 
-    return [ChargeStationModel(**station.__dict__) for station in stations]
+    return [ChargeStationModel(**station.__dict__["__data__"]) for station in stations]
 
 
 def delete_charge_stations():

@@ -29,6 +29,7 @@ def _list(
     charge_stations = get_charge_stations(user_email=token.email, limit=limit)
     if len(charge_stations) == 0:
         raise HTTPException(detail="user have no charge stations", status_code=404)
+    print(charge_stations[0])
     return _ListResponse(
         message="Charge station found", charge_stations=charge_stations
     )

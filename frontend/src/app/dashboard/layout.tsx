@@ -1,4 +1,4 @@
-import { cookies } from 'next/headers'
+import { getCookie } from '@/server_actions/cookies'
 import { redirect } from 'next/navigation'
 
 export default async function RootLayout({
@@ -7,10 +7,9 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
 
-  const cookieStore = await cookies()
-  const token = cookieStore.get('token')
+  const token = await getCookie('token')
 
-  if (!token?.value) redirect("/login")
+  if (!token) redirect("/login")
 
   return children
 }

@@ -1,5 +1,5 @@
 import { ChargeStationType } from '@/types/charge_stations'
-import { cookies } from 'next/headers'
+import { getCookie } from './cookies'
 
 type _Response = {
   charge_stations: Array<ChargeStationType>
@@ -7,8 +7,7 @@ type _Response = {
 }
 
 export async function get_charge_stations(): Promise<_Response> {
-  const cookieStore = await cookies()
-  const token = cookieStore.get('token')
+  const token = await getCookie('token')
 
   if (!token) {
     return {
@@ -18,12 +17,12 @@ export async function get_charge_stations(): Promise<_Response> {
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list`,
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=1000`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'x-token': token.value,
+        'x-token': token,
       },
     },
   )

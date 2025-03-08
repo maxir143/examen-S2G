@@ -1,6 +1,6 @@
 export interface ChargeStationType {
   id: string
-  user_id: string
+  user_email: string
   name: string
   lat: number
   long: number

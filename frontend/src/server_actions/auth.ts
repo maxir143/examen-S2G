@@ -1,10 +1,16 @@
 'use server'
 
-import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { setCookie, removeCookie } from './cookies'
 
 type _BasicAuth = {
   email: string
   password: string
+}
+
+export async function logout() {
+  await removeCookie('token')
+  redirect('/login')
 }
 
 export async function login({
@@ -34,9 +40,7 @@ export async function login({
         throw new Error('Response do not contain token')
       }
 
-      const cookieStore = await cookies()
-
-      cookieStore.set('token', token)
+      await setCookie('token', token)
 
       return { token, error: null }
     })
