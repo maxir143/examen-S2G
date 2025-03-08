@@ -1,6 +1,5 @@
-from typing import Optional, Union
 import uuid
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from models.annotated import StrUUID
 
 
@@ -17,4 +16,4 @@ class ErrorResponse(_BaseResponse):
 
 class SuccessResponse(_BaseResponse):
     message: str = Field("Success operation", description="Operation details")
-    data: Optional[Union[dict, BaseModel]] = Field(None, description="Operation data")
+    model_config = ConfigDict(extra="allow")

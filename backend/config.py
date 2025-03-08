@@ -8,8 +8,6 @@ class Settings(BaseSettings):
     TOKEN_SECRET_KEY: str
     TOKEN_EXPIRATION_MINUTES: int = 60
     REFRESH_TOKEN_EXPIRATION_MINUTES: int = 60 * 24 * 7
-    OTP_SECRET_KEY: str
-    OTP_ISSUER_NAME: str
     BASE_PATH: str = "/api"
 
     model_config = SettingsConfigDict(env_file=".env")

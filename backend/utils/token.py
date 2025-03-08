@@ -1,10 +1,8 @@
 from typing import Optional
-from uuid import uuid4
 from datetime import datetime, timezone, timedelta
 from pydantic import BaseModel
 from jose import jwt
 from config import Settings
-from models.annotated import StrUUID
 from repository.users import get_user
 
 

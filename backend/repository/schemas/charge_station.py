@@ -20,7 +20,7 @@ settings = Settings()
 
 class ChargeStationSchema(Model):
     id = UUIDField(primary_key=True, default=uuid.uuid4)
-    user_id = ForeignKeyField(UserSchema, backref="charge_stations", field="id")
+    user_email = ForeignKeyField(UserSchema, backref="charge_stations", field="email")
     name = CharField(max_length=50)
     lat = FloatField(default=0.0)
     long = FloatField(default=0.0)
