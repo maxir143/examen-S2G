@@ -1,18 +1,27 @@
-import { ChargeStationType } from '@/types/charge_stations'
+import {
+  ChargeStationType,
+  PartialChargeStationType,
+} from '@/types/charge_stations'
 import { create } from 'zustand'
 
 interface ChargeStationStore {
-  selected: ChargeStationType | undefined
+  selected: ChargeStationType | undefined | PartialChargeStationType
   chargeStations: Array<ChargeStationType>
   set: (stations: Array<ChargeStationType>) => void
-  edit: (id: string, station: Partial<ChargeStationType>) => void
+  edit: (id: string, station: Partial<PartialChargeStationType>) => void
   remove: (id: string) => void
   select: (id?: string) => void
+  add: (station: ChargeStationType) => void
 }
 
 export const useChargeStationStore = create<ChargeStationStore>()((set) => ({
   selected: undefined,
   chargeStations: [],
+  add: (station) =>
+    set((state) => ({
+      ...state,
+      chargeStations: [...state.chargeStations, station],
+    })),
   set: (stations) => set((state) => ({ ...state, chargeStations: stations })),
   edit: (id, stations) =>
     set((state) => ({

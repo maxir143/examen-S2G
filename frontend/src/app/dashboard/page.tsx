@@ -1,6 +1,6 @@
 import { ChargeStationForm } from '@/components/charge_station_form'
 import { LogOutButton } from '@/components/log_out_button'
-import { Map } from '@/components/map'
+import { StationsMap } from '@/components/map'
 import { get_charge_stations } from '@/server_actions/charge_stations'
 
 export default async function Page() {
@@ -8,7 +8,7 @@ export default async function Page() {
 
   return (
     <>
-      <Map serverStations={charge_stations} error={error} />
+      <StationsMap serverStations={charge_stations} error={error} />
       <ChargeStationForm />
       <LogOutButton />
     </>

@@ -5,72 +5,42 @@ import { Field, Form, Formik } from 'formik'
 import { toast } from 'react-toastify'
 import { login } from '@/server_actions/auth'
 import { setCookie } from '@/server_actions/cookies'
+import { KeyIcon } from './icons/key'
+import { LetterIcon } from './icons/letter'
 
-export function LoginForm({ goToPath = "/dashboard" }: { goToPath?: string }) {
+export function LoginForm({ goToPath = '/dashboard' }: { goToPath?: string }) {
   const router = useRouter()
 
   return (
     <div className="flex flex-col gap-4 w-full h-1/3">
-      <h1 className="text-2xl">Login form!</h1>
+      <h1 className="text-2xl">Login form</h1>
       <Formik
         validateOnChange
         validateOnBlur
         initialValues={{ email: '', password: '' }}
-        validate={(values) => {
-          const errors: { [field: string]: string } = {}
-          if (!values.email) {
-            errors.email = 'Email is required'
-          }
-          if (!values.email.includes('@') || !values.email.includes('.')) {
-            errors.email = 'Email is invalid'
-          }
-          if (!values.password) {
-            errors.password = 'Password is required'
-          }
-          if (values.password.length < 8) {
-            errors.password = 'Password must be at least 8 characters long'
-          }
-          return errors
-        }}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true)
-          const { token, error } = await login({
+          await login({
             email: values.email,
             password: values.password,
-          })
-          if (!token) {
-            toast.error(error || 'Error logging in, refresh and try again')
+          }).then(async ({ token, error }) => {
+            if (!token) throw Error(error || "Error logging in, refresh and try again")
+            await setCookie('token', token)
+            return router.push(goToPath)
+          }).catch((e) => {
+            toast.error(e)
             setSubmitting(false)
-            return
-          }
-          await setCookie("token", token)
+          })
           setSubmitting(false)
-          return router.push(goToPath)
         }}
       >
         {({ isSubmitting, errors }) => (
           <Form className="flex flex-col gap-4 justify-between h-full">
             <div className="flex flex-col gap-4">
-              <label
-                className={`input validator w-full pe-0 ${errors.email ? 'input-error' : 'validator'}`}
-              >
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                  </g>
-                </svg>
+              <label className="input w-full pe-0">
+                <LetterIcon />
                 <Field
+                  required
                   className="ps-2"
                   type="email"
                   name="email"
@@ -78,31 +48,10 @@ export function LoginForm({ goToPath = "/dashboard" }: { goToPath?: string }) {
                   placeholder="Email"
                 />
               </label>
-              <label
-                className={`input validator w-full pe-0 ${errors.password ? 'input-error' : 'validator'}`}
-              >
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"></path>
-                    <circle
-                      cx="16.5"
-                      cy="7.5"
-                      r=".5"
-                      fill="currentColor"
-                    ></circle>
-                  </g>
-                </svg>
+              <label className="input w-full pe-0">
+                <KeyIcon />
                 <Field
+                  required
                   className="ps-2"
                   type="password"
                   name="password"
