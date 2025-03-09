@@ -42,9 +42,9 @@ export function ChargeStationForm({
     add({
       ...values,
       id: temp_id,
-      created_at: "",
-      updated_at: "",
-      user_email: ""
+      created_at: '',
+      updated_at: '',
+      user_email: '',
     })
     return await post_charge_stations(values)
       .then(({ error, charge_station }) => {
@@ -66,8 +66,8 @@ export function ChargeStationForm({
     <div className="flex flex-col gap-4 w-full h-1/3">
       {selected ? (
         <_Form
-          initialValues={selected}
-          key={selected?.id}
+          initialValues={lat && long ? { ...selected, lat, long } : selected}
+          key={`${selected?.id}${selected?.lat}${selected?.long}${lat}${long}`}
           buttonMessage="Update station"
           onSubmit={(values) => editAction(selected.id, values)}
           resetOnFail
@@ -81,7 +81,7 @@ export function ChargeStationForm({
             lat,
             long,
           }}
-          key={`${initialValues?.lat}${initialValues?.long}`}
+          key={`${lat}${long}`}
           buttonMessage="Create new station"
           onSubmit={(values) => createAction(values)}
           resetOnSuccess
@@ -110,6 +110,7 @@ function _Form({
     <Formik
       validateOnChange
       validateOnBlur
+      isInitialValid={false}
       initialValues={initialValues}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         setSubmitting(true)
@@ -128,6 +129,7 @@ function _Form({
               <label className="input col-span-7 w-full pe-0">
                 <b>Station name</b>
                 <Field
+                  required
                   className="ps-2"
                   name="name"
                   minLength={1}

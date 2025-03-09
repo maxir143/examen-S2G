@@ -1,3 +1,4 @@
+import { LogOutButton } from '@/components/log_out_button'
 import { getCookie } from '@/server_actions/cookies'
 import { redirect } from 'next/navigation'
 
@@ -10,5 +11,10 @@ export default async function RootLayout({
 
   if (!token) redirect('/login')
 
-  return children
+  return (
+    <>
+      {children}
+      <LogOutButton />
+    </>
+  )
 }

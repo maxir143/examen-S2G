@@ -25,11 +25,11 @@ export default function RootLayout({
         <title>Examen S2G</title>
       </head>
       <body className="w-full min-h-[100svh] m-0 flex flex-col justify-center items-center">
-        <div className="fixed top-2 right-2">
+        <div className="fixed top-1 right-2 z-30">
           <DotStatus />
         </div>
         <div className="flex flex-col justify-center items-center w-full min-h-[100svh] m-0">
-          <div className="flex flex-col gap-4 p-4 max-w-[600px] w-full">
+          <div className="flex flex-col gap-4 p-2 max-w-[800px] w-full">
             {children}
           </div>
         </div>

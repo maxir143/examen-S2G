@@ -1,7 +1,7 @@
 import { ChargeStationForm } from '@/components/charge_station_form'
-import { LogOutButton } from '@/components/log_out_button'
 import { StationsMap } from '@/components/map'
 import { get_charge_stations } from '@/server_actions/charge_stations'
+import Link from 'next/link'
 
 type SearchParams = Promise<{ [key: string]: string | undefined }>
 
@@ -36,7 +36,7 @@ export default async function Page({
           long,
         }}
       />
-      <LogOutButton />
+      <Link href="/dashboard/info" className='btn w-full'>See as List</Link>
     </>
   )
 }
