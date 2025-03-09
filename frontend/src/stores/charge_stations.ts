@@ -5,7 +5,7 @@ import {
 import { create } from 'zustand'
 
 interface ChargeStationStore {
-  selected: ChargeStationType | undefined | PartialChargeStationType
+  selected: ChargeStationType | undefined
   chargeStations: Array<ChargeStationType>
   set: (stations: Array<ChargeStationType>) => void
   edit: (id: string, station: Partial<PartialChargeStationType>) => void

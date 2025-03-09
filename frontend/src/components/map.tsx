@@ -4,6 +4,7 @@ import { ChargeStationType } from '@/types/charge_stations'
 import { useState, useEffect } from 'react'
 import { Marker, APIProvider, Map } from '@vis.gl/react-google-maps'
 import { useChargeStationStore } from '@/stores/charge_stations'
+import { useRouter } from 'next/navigation'
 
 type _Controls = {
   scale: number
@@ -25,20 +26,11 @@ export function StationsMap({
   error?: string
 }) {
   const { set, chargeStations, select, selected } = useChargeStationStore()
-  const [controls, setControls] = useState<_Controls>(defaultControls)
+  const router = useRouter()
 
   useEffect(() => {
     set(serverStations)
   }, [])
-
-  useEffect(() => {
-    setControls((state) => ({
-      ...state,
-      scale: selected ? defaultControls.scale * 1.4 : defaultControls.scale,
-      lat: selected?.lat ? selected.lat : defaultControls.lat,
-      long: selected?.long ? selected.long : defaultControls.long,
-    }))
-  }, [selected])
 
   return (
     <APIProvider apiKey="">
@@ -49,37 +41,26 @@ export function StationsMap({
         gestureHandling={'greedy'}
         colorScheme="DARK"
         renderingType="RASTER"
-        zoom={controls.scale}
-        center={{ lat: controls.lat, lng: controls.long }}
         disableDefaultUI
         disableDoubleClickZoom
-        onClick={() => select()}
+        onClick={(e) => {
+          select()
+          router.replace(
+            `/dashboard?lat=${e.detail.latLng?.lat}&long=${e.detail.latLng?.lng}`,
+          )
+        }
+        }
       >
         {chargeStations.map((station) => (
           <Marker
             key={station.id}
             position={{ lat: station.lat, lng: station.long }}
-            onClick={() =>
-              select(station.id)
-            }
+            onClick={() => select(station.id)}
             opacity={station.active ? 1 : 0.5}
           />
         ))}
       </Map>
+
     </APIProvider>
   )
 }
-
-{
-  /* <Pin */
-}
-// scale={station.id == selected?.id ? 2 : selected ? 1 : 0.8}
-// fill={station.active ? '#27ae60' : '#c0392b'}
-// stroke={
-//   station.id == selected?.id
-//     ? 'white'
-//     : station.active
-//       ? '#2ecc71'
-//       : '#e74c3c'
-// }
-// />

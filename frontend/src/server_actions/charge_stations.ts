@@ -1,3 +1,5 @@
+'use server'
+
 import {
   ChargeStationType,
   PartialChargeStationType,
@@ -20,7 +22,7 @@ export async function get_charge_stations(): Promise<_GetResponse> {
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=100`,
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=10`,
     {
       method: 'GET',
       headers: {
@@ -114,6 +116,8 @@ export async function post_charge_stations(
     }
   }
 
+  console.log(data)
+
   return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/change-station`, {
     method: 'POST',
     headers: {
@@ -133,6 +137,8 @@ export async function post_charge_stations(
       } = await res.json()
 
       if (!res_json.charge_station) throw Error('No charge station created')
+
+      console.log(res_json.charge_station)
 
       return { charge_station: res_json.charge_station }
     })
