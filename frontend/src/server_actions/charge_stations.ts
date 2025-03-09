@@ -11,7 +11,9 @@ type _GetResponse = {
   error?: string
 }
 
-export async function get_charge_stations(): Promise<_GetResponse> {
+export async function get_charge_stations(
+  limit: number = 100,
+): Promise<_GetResponse> {
   const token = await getCookie('token')
 
   if (!token) {
@@ -22,7 +24,7 @@ export async function get_charge_stations(): Promise<_GetResponse> {
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=10`,
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=${limit}`,
     {
       method: 'GET',
       headers: {
@@ -115,8 +117,6 @@ export async function post_charge_stations(
       error: 'No token found',
     }
   }
-
-  console.log(data)
 
   return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/change-station`, {
     method: 'POST',

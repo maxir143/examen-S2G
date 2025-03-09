@@ -6,10 +6,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-
   const token = await getCookie('token')
 
-  if (!token) redirect("/login")
+  if (!token) redirect('/login')
 
   return children
 }

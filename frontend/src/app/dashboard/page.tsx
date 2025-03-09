@@ -10,16 +10,30 @@ export default async function Page({
 }: {
   searchParams: SearchParams
 }) {
-  const { lat, long } = await searchParams
+  const values = await searchParams
   const { charge_stations, error } = await get_charge_stations()
+
+  const lat = values.lat ? parseFloat(values.lat) : undefined
+  const long = values.long ? parseFloat(values.long) : undefined
 
   return (
     <>
-      <StationsMap serverStations={charge_stations} error={error} />
+      {error && <small className="text-red-500">{error}</small>}
+      <StationsMap
+        serverStations={charge_stations}
+        pin={
+          lat && long
+            ? {
+              lat,
+              long,
+            }
+            : undefined
+        }
+      />
       <ChargeStationForm
         initialValues={{
-          lat: lat ? parseFloat(lat) : undefined,
-          long: long ? parseFloat(long) : undefined,
+          lat,
+          long,
         }}
       />
       <LogOutButton />

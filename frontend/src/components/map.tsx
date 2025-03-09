@@ -1,16 +1,10 @@
 'use client'
 
 import { ChargeStationType } from '@/types/charge_stations'
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Marker, APIProvider, Map } from '@vis.gl/react-google-maps'
 import { useChargeStationStore } from '@/stores/charge_stations'
 import { useRouter } from 'next/navigation'
-
-type _Controls = {
-  scale: number
-  lat: number
-  long: number
-}
 
 const defaultControls = {
   scale: 11,
@@ -20,10 +14,10 @@ const defaultControls = {
 
 export function StationsMap({
   serverStations = [],
-  error,
+  pin,
 }: {
   serverStations?: Array<ChargeStationType>
-  error?: string
+  pin?: { lat: number; long: number }
 }) {
   const { set, chargeStations, select, selected } = useChargeStationStore()
   const router = useRouter()
@@ -35,32 +29,39 @@ export function StationsMap({
   return (
     <APIProvider apiKey="">
       <Map
-        className="aspect-square w-full rounded-lg overflow-hidden"
+        className="aspect-square w-full rounded-xl overflow-hidden min-w-full"
         defaultCenter={{ lat: defaultControls.lat, lng: defaultControls.long }}
         defaultZoom={defaultControls.scale}
         gestureHandling={'greedy'}
-        colorScheme="DARK"
-        renderingType="RASTER"
+        colorScheme="FOLLOW_SYSTEM"
+        renderingType="VECTOR"
         disableDefaultUI
         disableDoubleClickZoom
+        clickableIcons={false}
         onClick={(e) => {
           select()
           router.replace(
             `/dashboard?lat=${e.detail.latLng?.lat}&long=${e.detail.latLng?.lng}`,
           )
-        }
-        }
+        }}
       >
+        {pin && (
+          <Marker key="TEMP_MARK" position={{ lat: pin.lat, lng: pin.long }} />
+        )}
         {chargeStations.map((station) => (
           <Marker
             key={station.id}
             position={{ lat: station.lat, lng: station.long }}
-            onClick={() => select(station.id)}
+            onClick={() => {
+              select(station.id)
+              router.replace(
+                `/dashboard`,
+              )
+            }}
             opacity={station.active ? 1 : 0.5}
           />
         ))}
       </Map>
-
     </APIProvider>
   )
 }
