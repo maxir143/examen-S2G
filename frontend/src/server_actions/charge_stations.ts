@@ -17,7 +17,7 @@ export async function get_charge_stations(): Promise<_Response> {
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=1000`,
+    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=100`,
     {
       method: 'GET',
       headers: {
