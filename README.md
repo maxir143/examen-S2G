@@ -13,13 +13,22 @@
 
 ## Requerimientos Específicos
 
-- [ ] autenticación mediante JWT
-- [ ] Registrar una estación de carga con los siguientes datos: Nombre, Ubicación, Capacidad máxima en kW, Estado actual (activo/inactivo).
-- [ ] Consultar la lista de estaciones de carga.
-- [ ] Actualizar el estado de una estación.
-- [ ] Proporcionar datos para visualizaciones.
-- [ ] Configurar un endpoint con APScheduler para cambiar automáticamente el estado
-      de una estación después de un periodo de tiempo determinado.
+### Backend
+
+- [x] autenticación mediante JWT
+- [x] Registrar una estación de carga con los siguientes datos: Nombre, Ubicación, Capacidad máxima en kW, Estado actual (activo/inactivo).
+- [x] Consultar la lista de estaciones de carga.
+- [x] Actualizar el estado de una estación.
+- [x] Proporcionar datos para visualizaciones.
+- [ ] Configurar un endpoint con APScheduler para cambiar automáticamente el estado de una estación después de un periodo de tiempo determinado.
+
+### Frontend
+
+- [ ] Mostrar la lista de estaciones de carga.
+- [x] Permitir el registro de nuevas estaciones.
+- [x] Actualizar el estado de una estación en tiempo real.
+- [ ] Incluir al menos una gráfica interactiva con un filtro.
+- [ ] Cada vez que se cambia el filtro, debe realizarse una solicitud al backend para obtener los datos filtrados.
 
 ## Criterios de Evaluación
 

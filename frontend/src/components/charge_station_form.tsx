@@ -11,14 +11,15 @@ import {
   ChargeStationType,
   PartialChargeStationType,
 } from '@/types/charge_stations'
+import { useRouter } from 'next/navigation'
 
 export function ChargeStationForm({
   initialValues,
 }: {
   initialValues: Partial<ChargeStationType>
 }) {
-  const { edit, add, remove, selected } = useChargeStationStore()
-
+  const { edit, add, remove, selected, select } = useChargeStationStore()
+  const router = useRouter()
   const { lat = 0, long = 0 } = initialValues
 
   async function editAction(id: string, values: PartialChargeStationType) {
@@ -48,8 +49,10 @@ export function ChargeStationForm({
     return await post_charge_stations(values)
       .then(({ error, charge_station }) => {
         if (!charge_station) throw Error(error)
-        toast.success('Station created')
         edit(temp_id, charge_station)
+        select(charge_station.id)
+        toast.success('Station created')
+        router.replace(`/dashboard`)
         return true
       })
       .catch(() => {

@@ -39,7 +39,7 @@ def update_charge_station(
 def get_charge_stations(
     user_email: str, id: Optional[str] = None, limit: int = 100
 ) -> ChargeStationModel:
-    print(id)
+
     stations = (
         ChargeStationSchema.select()
         .where(ChargeStationSchema.user_email == user_email)

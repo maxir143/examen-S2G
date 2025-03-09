@@ -138,8 +138,6 @@ export async function post_charge_stations(
 
       if (!res_json.charge_station) throw Error('No charge station created')
 
-      console.log(res_json.charge_station)
-
       return { charge_station: res_json.charge_station }
     })
     .catch((error) => {
