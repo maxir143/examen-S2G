@@ -36,7 +36,7 @@ export function RegisterForm() {
           <Form className="flex flex-col gap-4 justify-between h-full">
             <div className="flex flex-col gap-4">
               <label
-                className={`input validator w-full pe-0 ${errors.email ? 'input-error' : 'validator'}`}
+                className="input validator w-full pe-0"
               >
                 <LetterIcon />
                 <Field
@@ -49,7 +49,7 @@ export function RegisterForm() {
                 />
               </label>
               <label
-                className={`input validator w-full pe-0 ${errors.password ? 'input-error' : 'validator'}`}
+                className="input validator w-full pe-0"
               >
                 <KeyIcon />
                 <Field
@@ -62,7 +62,7 @@ export function RegisterForm() {
                 />
               </label>
               <label
-                className={`input validator w-full pe-0 ${errors.confirmPassword ? 'input-error' : 'validator'}`}
+                className="input validator w-full pe-0"
               >
                 <KeyIcon />
                 <Field

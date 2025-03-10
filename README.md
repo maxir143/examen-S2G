@@ -24,7 +24,7 @@
 
 ### Frontend
 
-- [ ] Mostrar la lista de estaciones de carga.
+- [x] Mostrar la lista de estaciones de carga.
 - [x] Permitir el registro de nuevas estaciones.
 - [x] Actualizar el estado de una estación en tiempo real.
 - [ ] Incluir al menos una gráfica interactiva con un filtro.

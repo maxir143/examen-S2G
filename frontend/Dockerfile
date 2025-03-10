@@ -4,13 +4,13 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 COPY . ./
 
 ENV NEXT_PUBLIC_API_URL=http://localhost:3004/api
 
-RUN npm run build
+RUN npm run build 
 
 FROM node:lts-alpine AS runtime
 

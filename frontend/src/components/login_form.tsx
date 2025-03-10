@@ -20,18 +20,22 @@ export function LoginForm({ goToPath = '/dashboard' }: { goToPath?: string }) {
         initialValues={{ email: '', password: '' }}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true)
-          await login({
+          const { token, error } = await login({
             email: values.email,
             password: values.password,
-          }).then(async ({ token, error }) => {
-            if (!token) throw Error(error || "Error logging in, refresh and try again")
-            await setCookie('token', token)
-            return router.push(goToPath)
-          }).catch((e) => {
-            toast.error(e)
-            setSubmitting(false)
           })
+
+          if (error || !token) {
+            toast.error(error || 'Error logging in, refresh and try again')
+            setSubmitting(false)
+            return
+          }
+
+          await setCookie('token', token)
+
+          toast.success('Login success')
           setSubmitting(false)
+          router.push(goToPath)
         }}
       >
         {({ isSubmitting, errors }) => (
@@ -59,14 +63,6 @@ export function LoginForm({ goToPath = '/dashboard' }: { goToPath?: string }) {
                   placeholder="Password"
                 />
               </label>
-            </div>
-            <div>
-              {errors.email && (
-                <small className="text-error">{errors.email}</small>
-              )}
-              {errors.password && (
-                <small className="text-error">{errors.password}</small>
-              )}
             </div>
             <button
               className="btn w-full"
