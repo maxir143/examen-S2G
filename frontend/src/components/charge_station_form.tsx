@@ -23,15 +23,17 @@ export function ChargeStationForm({
   const { lat = 0, long = 0 } = initialValues
 
   async function editAction(id: string, values: PartialChargeStationType) {
+    const currentValues = { ...selected }
     edit(id, values)
     return await update_charge_stations(id, values)
       .then(({ error }) => {
         if (error) throw Error(error)
+        select(id)
         toast.success('Station updated')
         return true
       })
       .catch(() => {
-        if (selected) edit(id, selected)
+        if (selected) edit(id, currentValues)
         toast.error('Error updating station')
         return false
       })
@@ -67,7 +69,7 @@ export function ChargeStationForm({
       {selected ? (
         <_Form
           initialValues={lat && long ? { ...selected, lat, long } : selected}
-          key={`${selected?.id}${selected?.lat}${selected?.long}${lat}${long}`}
+          key={`${selected?.id}${lat}${long}`}
           buttonMessage="Update station"
           onSubmit={(values) => editAction(selected.id, values)}
           resetOnFail
@@ -124,6 +126,9 @@ function _Form({
     >
       {({ isSubmitting, values, setValues }) => (
         <Form className="flex flex-col gap-4 justify-between h-full">
+          <button className="btn btn-secondary w-full" type="submit" disabled={isSubmitting}>
+            {buttonMessage}
+          </button>
           <div className="flex flex-col gap-4">
             <div className="grid grid-cols-10 gap-3">
               <label className="input col-span-7 w-full pe-0">
@@ -207,17 +212,8 @@ function _Form({
               <i>Kw</i>
             </label>
           </div>
-          <button className="btn w-full" type="submit" disabled={isSubmitting}>
-            {buttonMessage}
-          </button>
         </Form>
       )}
     </Formik>
   )
 }
-
-// if (id) {
-//
-// } else {
-//
-// }

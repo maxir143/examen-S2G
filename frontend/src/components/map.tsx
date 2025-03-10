@@ -26,8 +26,7 @@ export function StationsMap({
   pin?: { lat: number; long: number }
 }) {
   const [controls, setControls] = useState<_Controls>(defaultControls)
-  const { set, chargeStations, select, selected, edit } =
-    useChargeStationStore()
+  const { set, chargeStations, select, selected } = useChargeStationStore()
   const router = useRouter()
 
   useEffect(() => {
