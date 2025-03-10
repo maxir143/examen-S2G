@@ -28,9 +28,7 @@ def update_charge_station(
         ChargeStationSchema.update(
             charge_station.model_dump(exclude_none=True, exclude_unset=True)
         )
-        .where(
-            ChargeStationSchema.id == id, ChargeStationSchema.user_email == user_email
-        )
+        .where(ChargeStationSchema.id == id)
         .execute()
     )
     return bool(row_affected)
@@ -42,7 +40,6 @@ def get_charge_stations(
 
     stations = (
         ChargeStationSchema.select()
-        .where(ChargeStationSchema.user_email == user_email)
         .limit(limit)
         .order_by(ChargeStationSchema.updated_at.desc())
         .execute()
@@ -52,7 +49,6 @@ def get_charge_stations(
         stations = (
             ChargeStationSchema.select()
             .where(
-                ChargeStationSchema.user_email == user_email,
                 ChargeStationSchema.id == id,
             )
             .execute()

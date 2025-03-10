@@ -14,6 +14,7 @@ from repository.db import init_db, get_db
 from config import Settings
 from api.v1 import v1_router
 from api.status import status_router
+from utils.fake_data import load
 
 settings = Settings()
 
@@ -21,6 +22,7 @@ settings = Settings()
 @asynccontextmanager
 async def lifespan(_app):
     init_db(get_db(settings.DATABASE_NAME))
+    load()
     yield
 
 

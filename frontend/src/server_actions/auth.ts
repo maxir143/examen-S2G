@@ -19,7 +19,7 @@ export async function login({
 }: _BasicAuth): Promise<
   { token: string; error: null } | { token: null; error: string }
 > {
-  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/user/login`, {
+  return await fetch(`${process.env.API_URL}/v1/user/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ export async function signUp({
   email,
   password,
 }: _BasicAuth): Promise<{ success: boolean; error: string | null }> {
-  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/user/sign-up`, {
+  return await fetch(`${process.env.API_URL}/v1/user/sign-up`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export async function signUp({
 export async function refreshToken(
   token: string,
 ): Promise<{ token: string; error: null } | { token: null; error: string }> {
-  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/token/refresh`, {
+  return await fetch(`${process.env.API_URL}/v1/token/refresh`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

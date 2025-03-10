@@ -24,7 +24,7 @@ export async function get_charge_stations(
   }
 
   return await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/list?limit=${limit}`,
+    `${process.env.API_URL}/v1/change-station/list?limit=${limit}`,
     {
       method: 'GET',
       headers: {
@@ -73,17 +73,14 @@ export async function update_charge_stations(
     }
   }
 
-  return await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/v1/change-station/${id}`,
-    {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-token': token,
-      },
-      body: JSON.stringify(data),
+  return await fetch(`${process.env.API_URL}/v1/change-station/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-token': token,
     },
-  )
+    body: JSON.stringify(data),
+  })
     .then(async (res) => {
       if (!res.ok) {
         throw new Error(await res.text())
@@ -118,7 +115,7 @@ export async function post_charge_stations(
     }
   }
 
-  return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/change-station`, {
+  return await fetch(`${process.env.API_URL}/v1/change-station`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

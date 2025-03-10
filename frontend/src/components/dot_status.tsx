@@ -1,28 +1,17 @@
 'use client'
+import { apiStatus } from '@/server_actions/status'
 import { useEffect, useState } from 'react'
 
 export function DotStatus({ delay = 1000 }: { delay?: number }) {
   const [status, setStatus] = useState<boolean>(false)
 
-  async function refresh(): Promise<void> {
-    return await fetch(`${process.env.NEXT_PUBLIC_API_URL}/status`, {
-      method: 'GET',
-    })
-      .then((res) => {
-        setStatus(res.ok)
-      })
-      .catch(() => {
-        setStatus(false)
-      })
-  }
-
   useEffect(() => {
     const intervalId = setInterval(() => {
-      refresh()
+      apiStatus().then((status) => setStatus(status)).catch(() => setStatus(false))
     }, delay)
 
     return () => clearInterval(intervalId)
-  }, [])
+  }, [delay])
 
   return (
     <div className="inline-grid *:[grid-area:1/1]">

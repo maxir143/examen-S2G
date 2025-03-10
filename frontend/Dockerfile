@@ -8,7 +8,7 @@ RUN npm install --legacy-peer-deps
 
 COPY . ./
 
-ENV NEXT_PUBLIC_API_URL=http://localhost:3004/api
+ENV API_URL=${API_URL}
 
 RUN npm run build 
 
@@ -19,6 +19,8 @@ WORKDIR /app
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
+
+ENV API_URL=${API_URL}
 
 EXPOSE 8000
 

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import APIRouter, HTTPException, Query
 from typing import Annotated
 from fastapi import APIRouter, Header
@@ -58,7 +58,7 @@ def _update(
     x_token: Annotated[str | None, Header()] = None,
 ):
     token = validate_token(x_token)
-    body.updated_at = datetime.now()
+    body.updated_at = datetime.now(tz=timezone.utc)
     updated_station = update_charge_station(
         id=id, user_email=token.email, charge_station=body
     )
